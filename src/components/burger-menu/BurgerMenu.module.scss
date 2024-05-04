@@ -1,0 +1,102 @@
+@import '../styles/colors.scss';
+
+.nav-menu {
+  position: absolute;
+  width: 300px;
+  max-height: 100vh;
+  min-height: 100vh;
+  z-index: 1;
+  background-color: #000;
+  padding: 90px 22px 0 22px;
+  top: 0;
+  left: 0;
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  font-size: 16px;
+  font-weight: 400;
+  background-color: #1e1e1e;
+  color: $text-menu;
+  &__list {
+    list-style-type: none;
+  }
+  &__item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 15px 20px;
+    border-radius: 15px;
+    gap: 15px;
+    &:hover {
+      background-color: $background-active__menu;
+    }
+  }
+  &__link {
+    display: flex;
+    align-items: center;
+  }
+  &__text {
+    letter-spacing: 1px;
+  }
+  &.nav-menu-active {
+    transform: translateX(0);
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+.account{
+  padding: 10px 20px;
+  .logoutBtnWrapp{
+    margin: 20px 0 15px 0;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  .logoutBtn{
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    border-radius: 10px;
+    color: $text-menu;
+    font-size: 18px;
+    background-color: $background-active__menu;
+    border: none;
+  }
+}
+
+.icon{
+  display: flex;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  fill: $text-menu;
+  color: $text-menu;
+  stroke: $text-menu;
+  path{
+    fill: $text-menu;
+  }
+  line{
+    stroke: $text-menu;
+  }
+}
+@media (max-width: 1200px) {
+  .nav-menu{
+    width: 250px;
+  }
+}
+
+@media (max-width: 320px) {
+  .nav-menu{
+    width: 100%;
+    &.nav-menu-active{
+      justify-content: flex-start;
+    }
+  }
+}

@@ -1,0 +1,77 @@
+@import '../../components/styles/colors.scss';
+
+.Login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #1e1e1e;;
+}
+
+
+
+
+.Form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  border: 1px solid rgb(66, 65, 65);
+  padding: 35px;
+  border-radius: 15px;
+  box-shadow: 0px 5px 10px 2px rgba(171, 105, 0, 0.2);
+}
+
+
+.Input {
+  border: 1px solid rgb(66, 65, 65);
+
+  background: transparent !important;
+  color: white;
+  &::placeholder {
+    color: rgb(66, 65, 65);
+  }
+  ::placeholder {
+    color: rgb(66, 65, 65);
+  }
+  &:hover{
+    background: transparent !important;
+
+  }
+  &:focus{
+    background: transparent !important;
+  }
+  svg{
+    color: white;
+  }
+}
+
+
+
+.fomrItem {
+  width: 100%;
+  background: transparent !important;
+  color: white;
+  &:hover{
+    background: transparent !important;
+
+  }
+  &:focus{
+    background: transparent !important;
+  }
+}
+
+.loginBtn{
+  border: 1px solid rgb(66, 65, 65);
+  background: transparent;
+  color: white;
+  &:hover{
+    background: transparent !important;
+  }
+  &:focus{
+    background: transparent !important;
+
+  }
+}

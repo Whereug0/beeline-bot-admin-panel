@@ -1,0 +1,52 @@
+@import '../styles/colors.scss';
+
+.header {
+  letter-spacing: 1px;
+  margin: 0 auto;
+  position: sticky;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 45px;
+  background-color: white;
+  border-bottom: 1px solid $border;
+}
+
+.searchWrapp{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid $border;
+  padding: 5px 20px;
+  border-radius: 15px;
+  height: 35px;
+  .inputSearch{
+    &:focus{
+      outline: none;
+    }
+    font-size: 15px;
+    border: none;
+  }
+}
+
+
+
+.SearchIcon {
+  width: 20px;
+  height: 20px;
+  color: $icon-color;
+}
+
+
+
+@media (max-width: 768px) {
+  .header {
+    .nav {
+      justify-content: space-between;
+      .navMenu {
+        justify-content: center;
+      }
+    }
+  }
+}

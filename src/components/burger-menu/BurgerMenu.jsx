@@ -5,15 +5,20 @@ import {ReactComponent as HomeIcon} from '../../assets/icons/home.svg';
 import {ReactComponent as BotIcon} from '../../assets/icons/bot.svg';
 import {ReactComponent as LogoutIcon} from '../../assets/icons/logout.svg';
 import {ReactComponent as StaffIcon} from '../../assets/icons/staff.svg';
-
+import { useDispatch } from "react-redux";
+import { ROUTES } from "../../utils/routes";
+import { logout } from "../../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 
 const BurgerMenu = (props) => {
-  const { theme, isActiveBurgerMenu, setIsActiveBurgerMenu } = props;
-  
+  const { isActiveBurgerMenu, setIsActiveBurgerMenu } = props;
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+
   const navMenuClasses = clsx(styles["nav-menu"], {
     [styles["nav-menu-active"]]: isActiveBurgerMenu,
-    [styles["nav-menu-light"]]: theme === "light",
   });
 
  
@@ -21,30 +26,45 @@ const BurgerMenu = (props) => {
     setIsActiveBurgerMenu(!isActiveBurgerMenu);
   };
 
+  const handleLogout = () => {
+    // Отправить действие logout в Redux
+    dispatch(logout());
+
+    // Перенаправить пользователя на страницу входа
+    navigate(ROUTES.LOGIN);
+  };
+
   return (
-    <nav className={navMenuClasses}>
+    <nav className={navMenuClasses} onClick={(e) => e.stopPropagation()}>
       <ul className={styles["nav-menu__list"]}>
         <div className={styles["pages"]}>
           <li
-            onClick={handleQuitBurgerMenu}
+            // onClick={handleQuitBurgerMenu}
             className={styles["nav-menu__item"]}
           >
               <HomeIcon className={styles.icon}/>
-              <span className={styles["nav-menu__text"]}>Главная страница</span>
+              <span className={styles["nav-menu__text"]}>Культуры Beeline</span>
           </li>
           <li
-            onClick={handleQuitBurgerMenu}
+            // onClick={handleQuitBurgerMenu}
             className={styles["nav-menu__item"]}
           >
               <BotIcon className={styles.icon}/>
-              <span className={styles["nav-menu__text"]}>Управление ботом</span>
+              <span className={styles["nav-menu__text"]}>Пользователи</span>
           </li>
           <li
-            onClick={handleQuitBurgerMenu}
+            // onClick={handleQuitBurgerMenu}
             className={styles["nav-menu__item"]}
           >   
               <StaffIcon className={styles.icon}/>
-              <span className={styles["nav-menu__text"]}>Сотрудники</span>
+              <span className={styles["nav-menu__text"]}>Сообщения</span>
+          </li>
+          <li
+            // onClick={handleQuitBurgerMenu}
+            className={styles["nav-menu__item"]}
+          >   
+              <StaffIcon className={styles.icon}/>
+              <span className={styles["nav-menu__text"]}>Справки</span>
           </li>
         </div>
       </ul>
@@ -57,7 +77,10 @@ const BurgerMenu = (props) => {
           <p>Должность</p>
         </div>
         <div className={styles.logoutBtnWrapp}>
-          <button className={styles.logoutBtn}>
+          <button 
+            className={styles.logoutBtn} 
+            onClick={handleLogout}
+          >
             <div>
               <LogoutIcon className={styles.icon}/>
             </div>

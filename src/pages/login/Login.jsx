@@ -1,107 +1,88 @@
-import React, { useRef, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../utils/routes';
-import { Navigate } from 'react-router-dom';
-
-import {Form, Input, Button} from 'antd';
 
 
-import { AuthService } from '../../services/AuthService';
-import {setCurrentUser, setAccessToken, loginUser} from '../../store/user/userSlice';
 import { useDispatch } from 'react-redux';
 
 import styles from './Login.module.scss';
+import { useLoginMutation } from '../../features/auth/authApiSlice';
+import { setCredentials } from '../../features/auth/authSlice';
+
 
 
 const Login = () => {
+  const userRef = useRef()
+  const errRef = useRef()
+
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [redirectToHome, setRedirectToHome] = useState(false)
+  const [errMsg, setErrMsg] = useState('')
+
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [login, {isLoading}] = useLoginMutation()
 
-  const usernameInputRef = useRef(null); // Ссылка на поле ввода электронной почты
-  const passwordInputRef = useRef(null); // Ссылка на поле ввода пароля
 
-  // const handleLogin = async () => {
-  //   try {
-  //     const response = await AuthService.login(email, password); // Выполняем запрос на авторизацию
-  //     // Добавьте дополнительную логику здесь, например, обновление состояния пользователя в хранилище Redux
-  //     dispatch(setCurrentUser(response.data.user));
-  //     dispatch(setAccessToken(response.data.access_token));
-  //     console.log('Успешная авторизация', response);
+  useEffect(() => {
+    userRef.current.focus()
+  },[])
 
-  //     setRedirectToHome(true)
-  //   } catch (error) {
-  //     console.error('Ошибка авторизации', error);
-  //     // Добавьте обработку ошибки, например, отображение сообщения об ошибке в интерфейсе
-  //   }
-  // };
+  useEffect(() => {
+    setErrMsg('')
+  },[username, password])
 
-  const handleLogin = async () => {
-    try {
-      const response = await dispatch(loginUser({ username, password }));
-      // Добавьте дополнительную логику здесь, например, обновление состояния пользователя в хранилище Redux
-      dispatch(setCurrentUser(response.payload.user));
-      dispatch(setAccessToken(response.payload.access_token));
-      console.log('Успешная авторизация', response);
 
-      setRedirectToHome(true);
-    } catch (error) {
-      console.error('Ошибка авторизации', error);
-      // Добавьте обработку ошибки, например, отображение сообщения об ошибке в интерфейсе
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    console.log("Форма отправлена")
+    try{
+      const userData = await login({username, password}).unwrap()
+      dispatch(setCredentials({...userData, username }))
+      setUsername('')
+      setPassword('')
+      navigate(ROUTES.HOME)
+    }catch(err) {
+      if (!err?.originalStatus) {
+        // isLoading: true until timeout occurs
+        setErrMsg('No Server Response');
+      } else if (err.originalStatus === 400) {
+          setErrMsg('Missing Username or Password');
+      } else if (err.originalStatus === 401) {
+          setErrMsg('Unauthorized');
+      } else {
+          setErrMsg('Login Failed');
+      }
+      errRef.current.focus();
     }
   };
 
-  if (redirectToHome) {
-    return <Navigate to="/home" />; // Перенаправление на страницу /home при успешной авторизации
-  }
 
-  return (
+
+  return isLoading ?<h1>Loadin...</h1> : (
     <div className={styles.Login}>
-      <Form className={styles.Form}>
-        <Form.Item
-          className={styles.fomrItem}
-          name='username'
-          rules={[
-            {required: true, message: 'Введите username'},
-            {
-              type: 'login',
-              message: 'Please enter a valid login address',
-            },]}
-       
-        >
-          <Input
-            className={styles.Input} 
-            type='text' 
-            placeholder='username' 
-            size='large' 
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            ref={usernameInputRef}
-          />
-         
-
-        </Form.Item>
-        <Form.Item
-          className={styles.fomrItem}
-          name='password'
-          rules={[{required: true, message: 'Введите пароль'}]}
-        >
-  
-          <Input.Password 
-            className={styles.Input} 
-            placeholder='password' 
-            size='large'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            ref={passwordInputRef}
-
-          />
-      
-        </Form.Item>
-        <Button type='primary' className={styles.loginBtn} onClick={handleLogin}>Войти</Button>
-        <NavLink to={ROUTES.HOME}><p>Home</p></NavLink>
-      </Form>
+      <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+      <form className={styles.Form} onSubmit={handleSubmit}>
+        <input
+          placeholder='Login'
+          className={styles.Input} 
+          type="text"      
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          ref={userRef}
+          required  
+        />
+        <input
+          required
+          placeholder='Password'
+          className={styles.Input} 
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type='submit' className={styles.loginBtn}>вход</button>
+      </form>
     </div>
   )
 }

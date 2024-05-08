@@ -40,6 +40,7 @@
     letter-spacing: 1px;
   }
   &.nav-menu-active {
+    cursor: default;
     transform: translateX(0);
     opacity: 1;
     display: flex;
@@ -86,17 +87,17 @@
     stroke: $text-menu;
   }
 }
-@media (max-width: 1200px) {
-  .nav-menu{
-    width: 250px;
-  }
-}
+// @media (max-width: 1200px) {
+//   .nav-menu{
+//     width: 250px;
+//   }
+// }
 
-@media (max-width: 320px) {
-  .nav-menu{
-    width: 100%;
-    &.nav-menu-active{
-      justify-content: flex-start;
-    }
-  }
-}
+// @media (max-width: 320px) {
+//   .nav-menu{
+//     width: 100%;
+//     &.nav-menu-active{
+//       justify-content: flex-start;
+//     }
+//   }
+// }

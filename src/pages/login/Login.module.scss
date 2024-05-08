@@ -26,10 +26,13 @@
 
 
 .Input {
+  font-size: 15px;
   border: 1px solid rgb(66, 65, 65);
-
-  background: transparent !important;
+  border-radius: 10px;
+  padding: 10px;
+  background: transparent;
   color: white;
+  outline: none;
   &::placeholder {
     color: rgb(66, 65, 65);
   }
@@ -37,11 +40,11 @@
     color: rgb(66, 65, 65);
   }
   &:hover{
-    background: transparent !important;
+    background: transparent;
 
   }
   &:focus{
-    background: transparent !important;
+    background: transparent;
   }
   svg{
     color: white;
@@ -52,26 +55,26 @@
 
 .fomrItem {
   width: 100%;
-  background: transparent !important;
+  background: transparent;
   color: white;
   &:hover{
-    background: transparent !important;
+    background: transparent;
 
   }
   &:focus{
-    background: transparent !important;
+    background: transparent;
   }
 }
 
 .loginBtn{
+  padding: 10px;
   border: 1px solid rgb(66, 65, 65);
   background: transparent;
+  border-radius: 10px;
   color: white;
-  &:hover{
-    background: transparent !important;
-  }
-  &:focus{
-    background: transparent !important;
+  font-size: 15px;
+}
 
-  }
+.errmsg {
+  color: red;
 }

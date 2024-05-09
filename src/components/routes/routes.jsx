@@ -15,7 +15,6 @@ const AppRoutes = () => {
 
   const token = useSelector(selectCurrentToken);
   const navigate = useNavigate();
-  console.log(token)
 
   return(
   <Routes>

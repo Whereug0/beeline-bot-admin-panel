@@ -3,6 +3,7 @@ import { logout, setCredentials } from "../auth/authSlice";
 import { BASE_URL } from "../../utils/constants";
 
 
+
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   credentials: 'include',
@@ -22,7 +23,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   if(result?.error?.originalStatus === 403) {
     console.log('отправка токена обновления')
 
-    const refreshResult = await baseQuery('/accounts/refresh', api, extraOptions)
+    const refreshResult = await baseQuery('/accounts/refresh/', api, extraOptions)
     console.log(refreshResult)
     if(refreshResult?.data) {
       const user = api.getState().auth.user
@@ -40,8 +41,11 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
-    getMessages: builder.query({
-      query: () => "/main/message", // Путь к эндпоинту для получения сообщений
+    getMessage: builder.query({
+      query: () => "/main/message/", // Путь к эндпоинту для получения сообщений
     }),
   }),
 })
+
+
+export const { useGetMessageQuery } = apiSlice;

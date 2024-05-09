@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../../components/header/Header';
-import { fetchMessages } from '../../features/messages/actionCreator';
+import { apiSlice, useGetMessageQuery } from '../../features/api/apiSlice';
 
-import { useDispatch, useSelector } from 'react-redux';
+
+import { useDispatch} from 'react-redux';
 
 import styles from './Home.module.scss';
 import BurgerIcon from '../../components/burger-icon/BurgerIcon';
@@ -10,17 +11,29 @@ import BurgerIcon from '../../components/burger-icon/BurgerIcon';
 const Home = () => {
   const dispatch = useDispatch()
 
+  const {data: message, isLoading, error} = useGetMessageQuery()
+
+
   const [isActiveBurgerMenu, setIsActiveBurgerMenu] = useState(false);
 
-  const {messages, isLoading, error} = useSelector((state) => state.messages)
 
   useEffect(() => {
-    dispatch(fetchMessages())
-  }, [dispatch])
+    dispatch(apiSlice.endpoints.getMessage.initiate())
+  },[dispatch])
 
   const handleShowBurgerMenu = () => {
     setIsActiveBurgerMenu(!isActiveBurgerMenu);
   };
+
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+  console.log(message)
 
   return (
     <div className={styles.Home}>
@@ -33,13 +46,9 @@ const Home = () => {
         <Header />
       </div>
       <div className={styles.content}>
-      {messages.length > 0 ? (
-        messages.map((message) => (
-          <div key={message.id}>{message.text}</div>
-        ))
-      ) : (
-        <div>No messages found.</div>
-      )}
+        {message.map((message) => (
+          <div key={message.id}>{message.type}</div>
+        ))}
       </div>
     </div>
   )

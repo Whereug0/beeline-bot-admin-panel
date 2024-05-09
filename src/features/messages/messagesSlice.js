@@ -15,7 +15,7 @@ const messagesSlice = createSlice({
     builder
       .addCase(fetchMessages.fulfilled, (state, action) => {
         state.isLoading = false
-        state.messages = action.payload.messages
+        state.messages = action.payload
         state.error = ''
       })
       .addCase(fetchMessages.pending, (state) => {
@@ -28,6 +28,5 @@ const messagesSlice = createSlice({
   }
 })
 
-export const { messagesFetching, messagesFetchingSuccess, messagesFetchingError } = messagesSlice.actions;
 
 export default messagesSlice.reducer

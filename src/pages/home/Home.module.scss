@@ -15,10 +15,17 @@
   align-items: center;
   z-index: -5;
   justify-content: center;
+  flex-direction: column;
   height: 90vh;
   margin: 20px;
   margin-top: 70px;
   padding: 20px;
   border: 1px solid $border;
   background: white;
+}
+
+.types{
+  display: flex;
+  gap: 20;
+  flex-direction: column;
 }

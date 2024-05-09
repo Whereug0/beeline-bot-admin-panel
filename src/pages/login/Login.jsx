@@ -36,13 +36,13 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log("Форма отправлена")
     try{
       const userData = await login({username, password}).unwrap()
       dispatch(setCredentials({...userData, username }))
       setUsername('')
       setPassword('')
       navigate(ROUTES.HOME)
+      console.log("Авторазация")
     }catch(err) {
       if (!err?.originalStatus) {
         // isLoading: true until timeout occurs
@@ -54,9 +54,11 @@ const Login = () => {
       } else {
           setErrMsg('Login Failed');
       }
-      errRef.current.focus();
+      if (errRef.current) {
+        errRef.current.focus();
+      }
     }
-  };
+  }
 
 
 
